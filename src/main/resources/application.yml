@@ -1,0 +1,38 @@
+server.port: ${XML_TO_JAVA_SERVER_PORT:8080}
+
+spring:
+  application:
+    name: xml-to-java
+  datasource:
+    url: jdbc:postgresql://${DB_POSTGRESQL_USER}:${DB_POSTGRESQL_PASSWORD}@${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+    username: ${DB_POSTGRESQL_USER}
+    password: ${DB_POSTGRESQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yaml
+    contexts: test
+    drop-first: true
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:DEBUG}
+    org.springframework.boot.autoconfigure: ${LOGGING_LEVEL_ROOT:DEBUG}
+    org.springframework.context.annotation: ${LOGGING_LEVEL_ROOT:DEBUG}
+    org.springdoc: ${LOGGING_LEVEL_ROOT:DEBUG}
+  file:
+    path: ${LOG_FOLDER:/tmp}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method

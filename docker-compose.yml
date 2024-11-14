@@ -1,0 +1,50 @@
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-xml-to-java
+    environment:
+      POSTGRES_DB: ${DB_POSTGRESQL_DATABASE_NAME}
+      POSTGRES_USER: ${DB_POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRESQL_PASSWORD}
+    ports:
+      - ${DB_POSTGRESQL_PORT_EXTERNAL}:${DB_POSTGRESQL_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    restart: unless-stopped
+    networks:
+      - xml-to-java-network
+
+  xml-to-java:
+    env_file:
+      - .env
+    build:
+      context: .
+      args:
+        SERVER_PORT: ${XML_TO_JAVA_SERVER_PORT}
+        LOG_FOLDER: ${LOG_FOLDER}
+    environment:
+      - XML_TO_JAVA_SERVER_PORT=${XML_TO_JAVA_SERVER_PORT}
+      - LOG_FOLDER=${LOG_FOLDER}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_USERNAME=${DB_POSTGRESQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_POSTGRESQL_PASSWORD}
+      - SPRING_LIQUIBASE_CHANGELOG=classpath:db/changelog/changelog-master.yaml
+    depends_on:
+      - postgres
+    ports:
+      - "${XML_TO_JAVA_SERVER_PORT}:${XML_TO_JAVA_SERVER_PORT}"
+    container_name: xml-to-java
+    networks:
+      - xml-to-java-network
+
+networks:
+  xml-to-java-network:
+    name: xml-to-java-network
+    driver: bridge
+    attachable: true
+
+volumes:
+  postgres_data:

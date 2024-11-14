@@ -1,0 +1,1 @@
+CREATE DATABASE xml_to_java;
