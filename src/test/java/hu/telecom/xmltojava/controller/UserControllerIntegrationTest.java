@@ -1,8 +1,8 @@
 package hu.telecom.xmltojava.controller;
 
+import generated.User;
 import hu.telecom.xmltojava.domain.UserEntity;
 import hu.telecom.xmltojava.repository.UserRepository;
-import generated.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,10 +41,9 @@ class UserControllerIntegrationTest {
         userEntity.setName(name);
         userEntity.setUsername(userName);
         userEntity.setAddress(address);
-
         userRepository.save(userEntity);
 
-        ResponseEntity<User[]> responseEntity = restTemplate.getForEntity("http://localhost:" + port + "/api/users", User[].class);
+        ResponseEntity<User[]> responseEntity = restTemplate.getForEntity("http://localhost:" + port + "/api/v1/users", User[].class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         User[] users = responseEntity.getBody();

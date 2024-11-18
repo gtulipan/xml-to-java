@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 1
       author: Gusztáv TULIPÁN
       changes:
         - createTable:
@@ -28,22 +28,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: createdDate
-                  type: timestamp
-                  constraints:
-                    updatable: false
-                    nullable: false
-              - column:
-                  name: lastModifiedDate
-                  type: timestamp
-                  constraints:
-                    nullable: false
-              - column:
                   name: version
                   type: int
 
   - changeSet:
-      id: 3
+      id: 2
       author: Gusztáv TULIPÁN
       changes:
         - createTable:
@@ -66,22 +55,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: createdDate
-                  type: timestamp
-                  constraints:
-                    updatable: false
-                    nullable: false
-              - column:
-                  name: lastModifiedDate
-                  type: timestamp
-                  constraints:
-                    nullable: false
-              - column:
                   name: version
                   type: int
 
   - changeSet:
-      id: 4
+      id: 3
       author: Gusztáv TULIPÁN
       changes:
         - addForeignKeyConstraint:

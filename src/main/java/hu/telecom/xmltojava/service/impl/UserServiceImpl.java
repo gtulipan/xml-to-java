@@ -1,5 +1,6 @@
 package hu.telecom.xmltojava.service.impl;
 
+import generated.User;
 import hu.telecom.xmltojava.domain.RoleEntity;
 import hu.telecom.xmltojava.domain.UserEntity;
 import hu.telecom.xmltojava.mapper.UserMapper;
@@ -8,7 +9,6 @@ import hu.telecom.xmltojava.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import generated.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String createUser(User user) {
-
         UserEntity userEntity = UserEntity.builder()
                 .name(user.getName())
                 .username(user.getUsername())
